@@ -13,6 +13,11 @@ Reduce Arabic strings to their rasm, i.e. remove vocalization and other diacriti
 
 ## Contributing
 
+In order to run the tests you need to install pytest and related packages,
+preferably in a virtual environment:
+
+    $ pip install -r requirements-dev.txt
+
 Before committing changes, you should run the tests:
 
     # in the project's root directory
