@@ -1,49 +1,22 @@
-import unittest
-from rasmipy import rasmify
 import csv
-import os
+from os import path
 
-class RasmipyTestCase(unittest.TestCase):
-    def test_rasmipy(self):
-
-        # Read sample data
-        sample_data = self.read_sample_data()
-
-        # Iterate over all words
-        for word in sample_data:
-
-            # Get original arabic word with vocalization etc
-            original_arab = word[4].strip()
-
-            # Get target rasmified word without vocalization etc
-            target_rasm = word[5].strip()
+from rasmipy import rasmify
 
 
-            self.assertEqual(target_rasm, rasmify(original_arab))
+DATA_FILE = path.abspath(path.join(path.dirname(__file__), 'quran_text_rasm.csv'))
 
 
+def yield_test_data():
+    with open(DATA_FILE, mode="r") as csv_data:
+        csv_reader = csv.reader(csv_data, delimiter='\t')
+        for row in csv_reader:
+            if len(row) < 6:
+                continue
+            yield row[4].strip(), row[5].strip()
+    raise StopIteration
 
-    def read_sample_data(self):
 
-        """
-        Read the sample data into an array
-        :return: list 
-        """
-
-        # Set path to sample data file
-        csv_file = os.path.join(os.getcwd(), "data/quran_text_rasm.csv")
-
-        # Open file
-        with open(csv_file, mode="r") as csv_data:
-
-            # Parse file to csv reader data
-            csv_reader = csv.reader(csv_data)
-
-            # Parse data into a list
-            sample_list = [x[0].split("\t") for x in list(csv_reader)]
-
-            # Return data
-            return sample_list
-
-if __name__ == '__main__':
-    unittest.main()
+def test_rasmify():
+    for input, output in yield_test_data():
+        assert rasmify(input) == output

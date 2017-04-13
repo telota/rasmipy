@@ -1,7 +1,7 @@
 import re
 
 def rasmify(arabic_string):
-    
+
     # List of unicode characters that should be removed
     # '\u0615', '\u0617', '\u0618', '\u0619', '\u061A', '\u061E',
     # '\u0621',
