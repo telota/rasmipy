@@ -1,100 +1,62 @@
-import re
+# https://en.wikipedia.org/wiki/Arabic_(Unicode_block)
 
-def rasmify(arabic_string):
+# replacements
+RASMIFY_TRANSLATION_TABLE = {
+    '\N{ARABIC LETTER ALEF WITH MADDA ABOVE}': '\N{ARABIC LETTER ALEF}',
+    '\N{ARABIC LETTER ALEF WITH HAMZA ABOVE}': '\N{ARABIC LETTER ALEF}',
+    '\N{ARABIC LETTER WAW WITH HAMZA ABOVE}': '\N{ARABIC LETTER WAW}',
+    '\N{ARABIC LETTER ALEF WITH HAMZA BELOW}': '\N{ARABIC LETTER ALEF}',
+    '\N{ARABIC LETTER YEH WITH HAMZA ABOVE}': '\N{ARABIC LETTER DOTLESS BEH}',
+    '\N{ARABIC LETTER BEH}': '\N{ARABIC LETTER DOTLESS BEH}',
+    '\N{ARABIC LETTER TEH MARBUTA}': '\N{ARABIC LETTER HEH}',
+    '\N{ARABIC LETTER TEH}': '\N{ARABIC LETTER DOTLESS BEH}',
+    '\N{ARABIC LETTER THEH}': '\N{ARABIC LETTER DOTLESS BEH}',
+    '\N{ARABIC LETTER JEEM}': '\N{ARABIC LETTER HAH}',
+    '\N{ARABIC LETTER KHAH}': '\N{ARABIC LETTER HAH}',
+    '\N{ARABIC LETTER THAL}': '\N{ARABIC LETTER DAL}',
+    '\N{ARABIC LETTER ZAIN}': '\N{ARABIC LETTER REH}',
+    '\N{ARABIC LETTER SHEEN}': '\N{ARABIC LETTER SEEN}',
+    '\N{ARABIC LETTER DAD}': '\N{ARABIC LETTER SAD}',
+    '\N{ARABIC LETTER ZAH}': '\N{ARABIC LETTER TAH}',
+    '\N{ARABIC LETTER GHAIN}': '\N{ARABIC LETTER AIN}',
+    '\N{ARABIC LETTER FEH}': '\N{ARABIC LETTER DOTLESS FEH}',
+    '\N{ARABIC LETTER QAF}': '\N{ARABIC LETTER DOTLESS QAF}',
+    '\N{ARABIC LETTER KAF}': '\N{ARABIC LETTER KEHEH}',
+    '\N{ARABIC LETTER NOON}': '\u06BA',
+    '\N{ARABIC LETTER YEH}': '\N{ARABIC LETTER ALEF MAKSURA}',
+    '\N{ARABIC LETTER FARSI YEH}': '\N{ARABIC LETTER ALEF MAKSURA}',
+    '\N{ARABIC LETTER ALEF WASLA}': '\N{ARABIC LETTER ALEF}',
+}
+# single removals
+RASMIFY_TRANSLATION_TABLE.update({x: None for x in '\N{ARABIC LETTER HAMZA}'
+                                                   '\N{ARABIC TATWEEL}'
+                                                   '\N{ARABIC SUBSCRIPT ALEF}'
+                                                   '\N{ARABIC LETTER SUPERSCRIPT ALEF}'
+                                                   '\N{ARABIC LETTER HIGH HAMZA}'
+                                                   '\N{ARABIC SMALL HIGH ROUNDED ZERO}'
+                                                   '\N{ARABIC SMALL LOW MEEM}'})
+# removal slices
+for start, end in (('\N{ARABIC SMALL HIGH TAH}', '\N{ARABIC TRIPLE DOT PUNCTUATION MARK}'),
+                   ('\N{ARABIC FATHATAN}', '\N{ARABIC HAMZA BELOW}'),
+                   ('\N{ARABIC SMALL HIGH LIGATURE SAD WITH LAM WITH ALEF MAKSURA}',
+                    '\N{ARABIC SMALL HIGH SEEN}'),
+                   ('\N{ARABIC SMALL HIGH DOTLESS HEAD OF KHAH}', '\N{ARABIC SMALL YEH}')):
+    pointer = ord(start)
+    while pointer <= ord(end):
+        RASMIFY_TRANSLATION_TABLE[pointer] = None
+        pointer += 1
+del start, end, pointer
+RASMIFY_TRANSLATION_TABLE = str.maketrans(RASMIFY_TRANSLATION_TABLE)
 
-    # List of unicode characters that should be removed
-    # '\u0615', '\u0617', '\u0618', '\u0619', '\u061A', '\u061E',
-    # '\u0621',
-    # '\u0640
-    # '\u064B', '\u064C', '\u064D', '\u064F', '\u0650', '\u0651', '\u0652', '\u0653', '\u0654', '\u0655
-    # '\u0656',
-    # '\u0670',
-    # '\u0674',
-    # '\u06D6', '\u06D7', '\u06D8', '\u06D9', '\u06DA', '\u06DB', '\u06DC',
-    # '\06DF', \u06E1', '\u06E2', '\u06E3', '\u06E4', '\u06E5', '\u06E6'
-    # '\u06ED',
-    """
-    Reduce an arabic string to its rasm
-    :param arabic_string: 
-    :return: rasm_string
-    """
-    remove_characters = "[\u0615-\u061e\u0621\u0640\u064b-\u0655\u0656\u0670\u0674\u06d6-\u06dc\u06df\u06e1-\u06e6\u06ed]"
 
-    rasm_string = re.sub(remove_characters, "", arabic_string)
+def rasmify(text: str) -> str:
+    """ Reduces an arabic string to its rasm. """
+    result = text.translate(RASMIFY_TRANSLATION_TABLE)
+    # Insert zero-width-joiner into lam lam ha to avoid wrong ligatures
+    result = result.replace(
+        '\N{ARABIC LETTER LAM}\N{ARABIC LETTER LAM}\N{ARABIC LETTER HEH}',
+        '\N{ARABIC LETTER LAM}\N{ARABIC LETTER LAM}\N{ZERO WIDTH JOINER}\N{ARABIC LETTER HEH}')
+    return result.strip()
 
-    # Replace arabic letter alef wasla (\u0671) with arabic letter alef (\u0627)
-    rasm_string = re.sub("\u0671", "\u0627", rasm_string)
 
-    # Replace arabic letter teh (\u062A) with arabic letter dotless beh (\u066E)
-    rasm_string = re.sub("\u062A", "\u066E", rasm_string)
-
-    # Replace arabic letter teh marbuta (\u0629) with arabic letter heh (\u0647)
-    rasm_string = re.sub("\u0629", "\u0647", rasm_string)
-
-    # Replace arabic letter feh (\u0641) with arabic letter dotless feh (\u06A1)
-    rasm_string = re.sub("\u0641", "\u06A1", rasm_string)
-
-    # Replace arabic letter beh (\u0628) with arabic letter dotless beh (\u066E)
-    rasm_string = re.sub("\u0628", "\u066E", rasm_string)
-
-    # Replace arabic letter yeh (\u064A) with arabic letter alef maksura (\u0649)
-    rasm_string = re.sub("\u064A", "\u0649", rasm_string)
-
-    # Replace arabic letter kaf (\u0643) with arabic letter keheh (\u06A9)
-    rasm_string = re.sub("\u0643", "\u06A9", rasm_string)
-
-    # Replace arabic letter alef with hamza below (\u0625) with arabic letter alef (\u0627)
-    rasm_string = re.sub("\u0625", "\u0627", rasm_string)
-
-    # Replace arabic letter qaf (\u0642) with arabic letter dotless qaf (\u066F)
-    rasm_string = re.sub("\u0642", "\u066F", rasm_string)
-
-    # Replace arabic letter thal (\u0630) with arabic letter dal (\u062F)
-    rasm_string = re.sub("\u0630", "\u062F", rasm_string)
-
-    # Replace arabic letter alef with hamza above (\u0623) with arabic letter alef (\u0627)
-    rasm_string = re.sub("\u0623", "\u0627", rasm_string)
-
-    # Replace arabic letter ghain (\u063A) with arabic letter ain (\u0639)
-    rasm_string = re.sub("\u063A", "\u0639", rasm_string)
-
-    # Replace arabic letter dad (\u0636) with arabic letter sad (\u0635)
-    rasm_string = re.sub("\u0636", "\u0635", rasm_string)
-
-    # Replace arabic letter alef with madda above (\u0622) with arabic letter alef (\u0627)
-    rasm_string = re.sub("\u0622", "\u0627", rasm_string)
-
-    # Replace arabic letter sheen (\u0634) with arabic letter seen (\u0633)
-    rasm_string = re.sub("\u0634", "\u0633", rasm_string)
-
-    # Replace arabic letter jeem (\u062C) with arabic letter hah (\u062D)
-    rasm_string = re.sub("\u062C", "\u062D", rasm_string)
-
-    # Replace arabic letter zain (\u0632) with arabic letter reh (\u0631)
-    rasm_string = re.sub("\u0632", "\u0631", rasm_string)
-
-    # Replace arabic letter khah (\u062E) with arabic letter hah (\u062D)
-    rasm_string = re.sub("\u062E", "\u062D", rasm_string)
-
-    # Replace arabic letter theh (\u062B) with arabic letter dotless beh (\u066E)
-    rasm_string = re.sub("\u062B", "\u066E", rasm_string)
-
-    # Replace arabic letter zah (\u0638) with arabic letter tah (\u0637)
-    rasm_string = re.sub("\u0638", "\u0637", rasm_string)
-
-    # Replace arabic letter waw with hamza above (\u0624) with arabic letter waw (\u0648)
-    rasm_string = re.sub("\u0624", "\u0648", rasm_string)
-
-    # Replace arabic letter yeh with hamza above (\u0626) with arabic letter dotless beh (\u066E)
-    rasm_string = re.sub("\u0626", "\u066E", rasm_string)
-
-    # Replace arabic letter noon (\u0646) with arabic letter noon ghunna (\u06BA)
-    rasm_string = re.sub("\u0646", "\u06BA", rasm_string)
-
-    # Replace arabic letter farsi yeh (\u06CC) with arabic letter alef maksura (\u0649)
-    rasm_string = re.sub("\u06CC", "\u0649", rasm_string)
-
-    # Insert zero-width-joiner (\u200D) into lam lam ha to avoid wrong ligatures
-    rasm_string = re.sub("\u0644\u0644\u0647", "\u0644\u0644\u200D\u0647", rasm_string)
-
-    return rasm_string.strip()
+__all__ = ['RASMIFY_TRANSLATION_TABLE', rasmify.__name__]

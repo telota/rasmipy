@@ -1,5 +1,6 @@
 import csv
 from os import path
+import unicodedata
 
 from rasmipy import rasmify
 
@@ -19,4 +20,9 @@ def yield_test_data():
 
 def test_rasmify():
     for input, output in yield_test_data():
-        assert rasmify(input) == output
+        try:
+            assert rasmify(input) == output
+        except AssertionError:
+            processed = ':'.join(unicodedata.name(x) for x in rasmify(input))
+            expected = ':'.join((unicodedata.name(x) for x in output))
+            assert processed == expected
