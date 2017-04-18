@@ -12,9 +12,9 @@ def yield_test_data():
     with open(DATA_FILE, mode="r") as csv_data:
         csv_reader = csv.reader(csv_data, delimiter='\t')
         for row in csv_reader:
-            if len(row) < 6:
+            if len(row) < 2:
                 continue
-            yield row[4].strip(), row[5].strip()
+            yield row[0].strip(), row[1].strip()
     raise StopIteration
 
 

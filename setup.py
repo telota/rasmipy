@@ -10,7 +10,7 @@ setup(
     license='LGPLv3',
     author='Oliver Pohl, Frank Sachsenheim',
     author_email='telota@bbaw.de',
-    description='Reduce Arabic strings to their rasm, i.e. remove vocalization and other diacritics.',
+    description='Reduce Arabic strings to their rasm, ie remove vocalization and other diacritics.',
     classifiers=[
         'Development Status :: 4 - Beta',
         'Intended Audience :: Developers',
