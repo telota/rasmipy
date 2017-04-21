@@ -28,6 +28,8 @@ From the sources:
 Usage
 -----
 
+.. code-block::python
+
     from rasmipy import rasmify
 
     arab_string = "الفَاتِحَة"
@@ -35,6 +37,7 @@ Usage
     rasmified = rasmify(arab_string)
 
     # Shoud output الڡاٮحه
+
     print(rasmified)
 
 
