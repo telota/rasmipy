@@ -30,15 +30,9 @@ Usage
 
 .. code-block:: python
 
-    from rasmipy import rasmify
-
-    arab_string = "الفَاتِحَة"
-
-    rasmified = rasmify(arab_string)
-
-    # Shoud output الڡاٮحه
-
-    print(rasmified)
+    >>> from rasmipy import rasmify
+    >>> rasmify('الفَاتِحَة')
+    'الڡاٮحه'
 
 
 Contributing
