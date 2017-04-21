@@ -11,6 +11,7 @@ setup(
     author='Oliver Pohl, Frank Sachsenheim',
     author_email='telota@bbaw.de',
     description='Reduce Arabic strings to their rasm, ie remove vocalization and other diacritics.',
+    long_description=open('README.rst').read(),
     classifiers=[
         'Development Status :: 4 - Beta',
         'Intended Audience :: Developers',
