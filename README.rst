@@ -44,13 +44,19 @@ Contributing
 In order to run the tests, you need to install pytest and related packages,
 preferably in a virtual environment:
 
+.. code-block:: shell
+
     $ pip install -r requirements-dev.txt
 
 Install ``rasmipy`` in an editable mode:
 
+.. code-block:: shell
+
     $ python setup.py develop
 
 Before committing changes, you should run the tests:
+
+.. code-block:: shell
 
     # in the project's root directory
     $ pytest
