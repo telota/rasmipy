@@ -28,7 +28,7 @@ From the sources:
 Usage
 -----
 
-.. code-block::python
+.. code-block:: python
 
     from rasmipy import rasmify
 
