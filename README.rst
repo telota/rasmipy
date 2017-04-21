@@ -25,6 +25,19 @@ From the sources:
 
     $ python setup.py install
 
+Usage
+-----
+
+    from rasmipy import rasmify
+
+    arab_string = "الفَاتِحَة"
+
+    rasmified = rasmify(arab_string)
+
+    # Shoud output الڡاٮحه
+    print(rasmified)
+
+
 Contributing
 ------------
 
