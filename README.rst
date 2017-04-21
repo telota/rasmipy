@@ -2,17 +2,18 @@ rasmipy
 =======
 
 Reduce Arabic strings to their rasm, i.e. remove vocalization and other
-diacritics
+diacritics.
 
-Resources
----------
 
-- About the rasm writing script: https://en.wikipedia.org/wiki/Rasm
-- Code repository: https://github.com/telota/rasmipy
-- On the Python Package Index: https://pypi.python.org/pypi/rasmipy
-- PHP implementation: https://packagist.org/packages/telota/rasmify
-- Javascript implementation: https://github.com/telota/rasmify.js
-- Web demo: https://telota.github.io/rasmify.js/demo/
+Usage
+-----
+
+.. code-block:: python
+
+    >>> from rasmipy import rasmify
+    >>> rasmify('الفَاتِحَة')
+    'الڡاٮحه'
+
 
 Installation
 ------------
@@ -25,14 +26,16 @@ From the sources:
 
     $ python setup.py install
 
-Usage
------
 
-.. code-block:: python
+Resources
+---------
 
-    >>> from rasmipy import rasmify
-    >>> rasmify('الفَاتِحَة')
-    'الڡاٮحه'
+- About the rasm writing script: https://en.wikipedia.org/wiki/Rasm
+- Code repository: https://github.com/telota/rasmipy
+- On the Python Package Index: https://pypi.python.org/pypi/rasmipy
+- PHP implementation: https://packagist.org/packages/telota/rasmify
+- Javascript implementation: https://github.com/telota/rasmify.js
+- Web demo: https://telota.github.io/rasmify.js/demo/
 
 
 Contributing
