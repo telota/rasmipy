@@ -3,7 +3,7 @@ from setuptools import setup
 
 setup(
     name='rasmipy',
-    version='0.1rc1',
+    version='0.1',
     python_requires='>=3',
     packages=['rasmipy'],
     url='https://github.com/telota/rasmipy',
