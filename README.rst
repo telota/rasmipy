@@ -26,6 +26,32 @@ From the sources:
 
     $ python setup.py install
 
+With the optional REST interface:
+
+    $ pip install ramsipy[rest-api]
+
+REST API
+--------
+
+To run a REST service:
+
+    $ rasmify-rest-service
+
+Example GET request:
+
+    $ curl http://localhost:8000/?text=ءَاتَيۡنَا
+
+Example POST request:
+
+    $ curl -H "Content-Type: text/plain" -d 'ءَاتَيۡنَا' -X POST http://localhost:8000/
+
+There are two environment variables that can be used to configure the service:
+
+
+``PORT`` defines the port that the server listens, defaults to ``8000``.
+``MAX_GET_PARAMETER_LENGTH`` defines the allowed maximum length of GET requests,
+defaults to ``1024``.
+
 
 Resources
 ---------

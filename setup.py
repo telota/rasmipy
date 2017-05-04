@@ -5,7 +5,10 @@ setup(
     name='rasmipy',
     version='0.1',
     python_requires='>=3',
+    extras_require={'rest-api': ['hug']},
     packages=['rasmipy'],
+    entry_points={'console_scripts':
+                  ['rasmify-rest-service=rasmipy.rest_service:serve [rest-api]']},
     url='https://github.com/telota/rasmipy',
     license='LGPLv3',
     author='Oliver Pohl, Frank Sachsenheim',
