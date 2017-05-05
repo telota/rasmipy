@@ -1,0 +1,13 @@
+.cache/
+.idea/
+build/
+dist/
+*.egg-info/
+
+*.py[co]
+__pycache__/
+.git/
+.gitignore
+
+Makefile
+requirements-dev.txt
