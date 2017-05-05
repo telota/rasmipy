@@ -28,7 +28,7 @@ From the sources:
 
 With the optional REST interface:
 
-    $ pip install ramsipy[rest-api]
+    $ pip install rasmipy[rest-api]
 
 REST API
 --------
