@@ -20,7 +20,7 @@ Installation
 
 From the Python Package Index:
 
-    $ pip install ramsipy
+    $ pip install rasmipy
 
 From the sources:
 
@@ -28,7 +28,7 @@ From the sources:
 
 With the optional REST interface:
 
-    $ pip install ramsipy[rest-api]
+    $ pip install rasmipy[rest-service]
 
 REST API
 --------

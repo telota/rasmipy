@@ -23,4 +23,4 @@ CMD ["rasmify-rest-service"]
 COPY . /src
 RUN cd /src \
  && apk add --no-cache tini \
- && pip install --no-cache-dir .[rest-api]
+ && pip install --no-cache-dir .[rest-service]
