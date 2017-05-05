@@ -3,7 +3,7 @@ from setuptools import setup
 
 setup(
     name='rasmipy',
-    version='0.2',
+    version='0.2.1',
     python_requires='>=3',
     extras_require={'rest-service': ['hug']},
     packages=['rasmipy'],
