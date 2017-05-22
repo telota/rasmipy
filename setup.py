@@ -8,7 +8,7 @@ setup(
     extras_require={'rest-service': ['hug']},
     packages=['rasmipy'],
     entry_points={'console_scripts':
-                  ['rasmify-rest-service=rasmipy.rest_service:serve [rest-service]']},
+                  ['rasmify-rest-service = rasmipy.rest_service:serve [rest-service]']},
     url='https://github.com/telota/rasmipy',
     license='LGPLv3',
     author='Oliver Pohl, Frank Sachsenheim',
